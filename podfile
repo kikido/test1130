@@ -7,7 +7,7 @@ target '1130' do
 
   # Pods for 1130
 
-
+pod 'Toast', '~> 4.0.0'
 pod 'DZNEmptyDataSet', '~> 1.8.1'
 pod 'JPush', '~> 3.0.1'
 pod 'MJRefresh', '~> 3.1.12'

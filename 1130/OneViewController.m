@@ -7,6 +7,10 @@
 //
 
 #import "OneViewController.h"
+#import <CreditInformation/CreditInterface.h>
+#import <Toast.h>
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0] //调颜色
 
 @interface OneViewController ()
 
@@ -14,8 +18,60 @@
 
 @implementation OneViewController
 
+#pragma mark - E
+
+- (void)CreditInformation{
+    //注意：初建订单status传0，本例是退回的订单所以status传的是1
+    
+    [self.view makeToastActivity:CSToastPositionCenter];
+    [[CreditInterface sharedUtil] creatCreditViewControlerBankCode:@"5717434000" assurerNo:@"18044365" platNo:@"nfdb" productType:@"1" orderNo:@"vx2018011999771123"  status:@"0"  successAlert:^(NSDictionary *successAlert) {
+        NSLog(@"%@", successAlert);
+        [self.view hideToastActivity];
+        
+    } other:^(NSDictionary *otherDic) {
+        NSLog(@"%@", otherDic);
+        [self.view hideToastActivity];
+        
+    } failure:^(NSError *errer) {
+        NSLog(@"%@", errer);
+        [self.view hideToastActivity];
+        
+    } creditResults:^(NSDictionary *creditDic) {
+        NSLog(@"%@", creditDic);
+        [self.view hideToastActivity];
+        
+    }];
+}
+//清除缓存
+- (void)clearCreditInformation{
+    [self.view makeToastActivity:CSToastPositionCenter];
+    [[CreditInterface sharedUtil] creditClearCache:^(NSDictionary *resultsDic) {
+        NSLog(@"%@", resultsDic);
+        [self.view hideToastActivity];
+        
+    }];
+}
+
+#pragma mark - Other
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(10, 100, self.view.frame.size.width - 20, 44);
+    [btn setTitle:@"征信" forState:UIControlStateNormal];
+    btn.backgroundColor = UIColorFromRGB(0x7E5BE1);
+    [btn addTarget:self action:@selector(CreditInformation) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn2.frame =  CGRectMake(10,200, self.view.frame.size.width - 20, 44);
+    [btn2 setTitle:@"清除缓存" forState:UIControlStateNormal];
+    btn2.backgroundColor = UIColorFromRGB(0x7E5BE1);
+    [btn2 addTarget:self action:@selector(clearCreditInformation) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn2];
+    
+    return;
     
     UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(30, 30, 40, 40)];
     back.backgroundColor = [UIColor greenColor];

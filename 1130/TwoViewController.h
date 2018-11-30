@@ -15,3 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+@interface People : NSObject
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) NSInteger age;
+@property (nonatomic, assign) NSInteger count;
+@end

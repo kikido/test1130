@@ -8,6 +8,7 @@
 
 #import "TwoViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import <YYModel.h>
 
 
 #define SY_DocumentVideo_Path [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/jsvideo"]
@@ -27,7 +28,16 @@
     [self.view addSubview:back];
     // Do any additional setup after loading the view.
     
-    [self test];
+    NSDictionary *dict = @{
+                           @"name" : @"ceshi",
+                           @"age"  : @"2.3.4",
+                           @"count" : @2.2
+                           };
+    NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+    
+    People *pp = [People yy_modelWithJSON:json];
+    
+    NSLog(@"kk");
 }
 
 - (void)test
@@ -40,7 +50,8 @@
 
 - (void)begin
 {
-    [self one];
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self one];
 }
 
 + (void)load
@@ -151,4 +162,7 @@
 }
 */
 
+@end
+
+@implementation People
 @end
